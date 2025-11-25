@@ -1,9 +1,84 @@
+"use client";
+
 import Image from 'next/image';
 import Link from 'next/link';
+import { useState, useEffect } from 'react';
 
 export default function Home() {
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      // Show header after scrolling past the hero section (viewport height)
+      setIsScrolled(window.scrollY > window.innerHeight - 100);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
     <main className="min-h-screen">
+      {/* Sticky Header - Appears after scrolling past hero */}
+      <header 
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          isScrolled 
+            ? 'translate-y-0 opacity-100' 
+            : '-translate-y-full opacity-0'
+        }`}
+      >
+        <nav className="bg-[#00AFD7]/90 backdrop-blur-md shadow-lg">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex items-center justify-between h-16">
+              {/* Logo/Title */}
+              <Link href="/" className="flex items-center space-x-2">
+                <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
+                  <svg className="w-6 h-6 text-[#00AFD7]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                  </svg>
+                </div>
+                <span className="text-white font-bold text-lg hidden sm:block">
+                  Western Habitat
+                </span>
+              </Link>
+
+              {/* Navigation Links */}
+              <div className="flex items-center space-x-1 sm:space-x-4">
+                <Link 
+                  href="/"
+                  className="text-white hover:bg-white/20 px-3 py-2 rounded-md text-sm font-medium transition-colors"
+                >
+                  Home
+                </Link>
+                <Link 
+                  href="/about"
+                  className="text-white hover:bg-white/20 px-3 py-2 rounded-md text-sm font-medium transition-colors"
+                >
+                  About
+                </Link>
+                <Link 
+                  href="/team"
+                  className="text-white hover:bg-white/20 px-3 py-2 rounded-md text-sm font-medium transition-colors"
+                >
+                  Team
+                </Link>
+                <Link 
+                  href="/events"
+                  className="text-white hover:bg-white/20 px-3 py-2 rounded-md text-sm font-medium transition-colors"
+                >
+                  Events
+                </Link>
+                <Link 
+                  href="/join"
+                  className="bg-white text-[#00AFD7] hover:bg-gray-100 px-4 py-2 rounded-md text-sm font-semibold transition-colors ml-2"
+                >
+                  Join
+                </Link>
+              </div>
+            </div>
+          </div>
+        </nav>
+      </header>
       {/* Hero Section */}
       <section className="relative h-screen flex items-center justify-center bg-gradient-to-br from-[#00AFD7] via-[#0099BD] to-[#0077A3]">
         {/* Background overlay */}
