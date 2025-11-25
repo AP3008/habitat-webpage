@@ -1,8 +1,193 @@
-"use client";
+'use client';
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+
+// Image Carousel Component with Infinite Scroll
+function ImageCarousel() {
+  const [rotation, setRotation] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [currentRotation, setCurrentRotation] = useState(0);
+  const animationRef = useRef<number | null>(null);
+  const lastTimeRef = useRef<number>(Date.now());
+  
+  // Placeholder images - replace with your actual images
+  const images = [
+    { id: 1, alt: 'Build Day 1', description: 'Students working together on a build project' },
+    { id: 2, alt: 'Community Event', description: 'Habitat for Humanity community gathering' },
+    { id: 3, alt: 'Volunteer Team', description: 'Our dedicated volunteer team' },
+    { id: 4, alt: 'Construction Site', description: 'Progress on a new home construction' },
+    { id: 5, alt: 'Family Home', description: 'A completed home ready for a family' },
+    { id: 6, alt: 'Fundraiser Event', description: 'Annual fundraising gala' },
+    { id: 7, alt: 'Team Building', description: 'Team bonding activities' },
+    { id: 8, alt: 'Community Impact', description: 'Making a difference together' },
+  ];
+
+  const ROTATION_SPEED = 0.008; // Degrees per millisecond (slower, more elegant rotation)
+  const DRAG_SENSITIVITY = 0.25; // How much rotation per pixel dragged (reduced for less sensitivity)
+
+  // Continuous auto-rotation
+  useEffect(() => {
+    if (!isDragging) {
+      const animate = () => {
+        const now = Date.now();
+        const deltaTime = now - lastTimeRef.current;
+        lastTimeRef.current = now;
+        
+        setRotation(prev => (prev + ROTATION_SPEED * deltaTime) % 360);
+        animationRef.current = requestAnimationFrame(animate);
+      };
+      
+      animationRef.current = requestAnimationFrame(animate);
+      
+      return () => {
+        if (animationRef.current) {
+          cancelAnimationFrame(animationRef.current);
+        }
+      };
+    }
+  }, [isDragging]);
+
+  // Touch and mouse drag handlers
+  const handleStart = (clientX: number) => {
+    setIsDragging(true);
+    setStartX(clientX);
+    setCurrentRotation(rotation);
+    if (animationRef.current) {
+      cancelAnimationFrame(animationRef.current);
+    }
+  };
+
+  const handleMove = (clientX: number) => {
+    if (!isDragging) return;
+    const diff = clientX - startX;
+    const rotationDelta = diff * DRAG_SENSITIVITY;
+    // Reverse direction for slingshot effect - drag right to rotate left
+    setRotation(currentRotation + rotationDelta);
+  };
+
+  const handleEnd = () => {
+    setIsDragging(false);
+    lastTimeRef.current = Date.now();
+  };
+
+  // Mouse event handlers
+  const handleMouseDown = (e: React.MouseEvent) => {
+    handleStart(e.clientX);
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    handleMove(e.clientX);
+  };
+
+  const handleMouseUp = () => {
+    handleEnd();
+  };
+
+  const handleMouseLeave = () => {
+    if (isDragging) {
+      handleEnd();
+    }
+  };
+
+  // Touch event handlers
+  const handleTouchStart = (e: React.TouchEvent) => {
+    handleStart(e.touches[0].clientX);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    handleMove(e.touches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    handleEnd();
+  };
+
+  const anglePerImage = 360 / images.length;
+
+  return (
+    <div className="relative max-w-6xl mx-auto overflow-visible">
+      {/* 3D Carousel Container - Controlled Width with More Vertical Space */}
+      <div 
+        className="relative h-[550px] md:h-[650px] lg:h-[750px] flex items-center justify-center select-none bg-white px-4"
+        style={{ 
+          perspective: '1500px',
+          cursor: isDragging ? 'grabbing' : 'grab'
+        }}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+        onMouseLeave={handleMouseLeave}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+      >
+        {/* Carousel Ring */}
+        <div
+          className="relative w-full h-full"
+          style={{
+            transformStyle: 'preserve-3d',
+            transform: `rotateY(${rotation}deg)`,
+            transition: isDragging ? 'none' : 'transform 0.1s linear',
+          }}
+        >
+          {images.map((image, index) => {
+            const angle = index * anglePerImage;
+            const radius = 600; // Adjusted radius for better visibility
+            
+            return (
+              <div
+                key={image.id}
+                className="absolute left-1/2 top-1/2 w-[280px] sm:w-[350px] md:w-[420px] lg:w-[480px] h-[200px] sm:h-[250px] md:h-[300px] lg:h-[340px]"
+                style={{
+                  transformStyle: 'preserve-3d',
+                  transform: `
+                    translate(-50%, -50%)
+                    rotateY(${angle}deg)
+                    translateZ(${radius}px)
+                  `,
+                }}
+              >
+                {/* Image Card - with padding to create border effect */}
+                <div className="w-full h-full p-3 md:p-4 bg-white rounded-xl">
+                  <div className="w-full h-full bg-gradient-to-br from-gray-200 to-gray-300 rounded-lg shadow-xl overflow-hidden pointer-events-none">
+                    {/* Replace with actual images */}
+                    {/* <Image 
+                      src={`/gallery/image-${image.id}.jpg`}
+                      alt={image.alt}
+                      fill
+                      className="object-cover rounded-lg"
+                      draggable={false}
+                    /> */}
+                    
+                    {/* Placeholder content */}
+                    <div className="absolute inset-0 flex flex-col items-center justify-center p-6 md:p-8 bg-gradient-to-br from-[#00AFD7]/20 to-[#0099BD]/30">
+                      <svg className="w-12 h-12 md:w-16 md:h-16 text-gray-400 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                      </svg>
+                      <p className="text-gray-600 font-semibold text-xs md:text-sm mb-1">Image {image.id}</p>
+                      <p className="text-gray-500 text-[10px] md:text-xs text-center px-2">{image.description}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Center Focus Indicator */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 bg-[#00AFD7] rounded-full z-50 pointer-events-none shadow-lg ring-4 ring-[#00AFD7]/30" />
+      </div>
+
+      {/* Instructions */}
+      <p className="text-center text-gray-500 text-sm mt-8">
+        {isDragging ? '↔️ Drag to rotate the carousel' : '🔄 Auto-rotating • Drag or swipe to control'}
+      </p>
+    </div>
+  );
+}
 
 export default function Home() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -79,6 +264,7 @@ export default function Home() {
           </div>
         </nav>
       </header>
+
       {/* Hero Section */}
       <section className="relative h-screen flex items-center justify-center bg-gradient-to-br from-[#00AFD7] via-[#0099BD] to-[#0077A3]">
         {/* Background overlay */}
@@ -157,6 +343,23 @@ export default function Home() {
               </div>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Image Gallery Carousel Section */}
+      <section className="py-16 sm:py-20 lg:py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#00AFD7] mb-4">
+              Our Impact in Action
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              See our chapter's work building homes and strengthening communities across London and beyond.
+            </p>
+          </div>
+
+          {/* Image Carousel */}
+          <ImageCarousel />
         </div>
       </section>
 
