@@ -422,7 +422,7 @@ export default function Home() {
             </Link>
             {/* Instagram Link - Add your Instagram URL here */}
             <a 
-              href="YOUR_INSTAGRAM_URL_HERE"
+              href="https://www.instagram.com/h4hwesternuniversity/"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center w-12 h-12 bg-white text-[#00AFD7] rounded-lg hover:bg-gray-50 transition-all duration-300 transform hover:scale-105 shadow-xl"
