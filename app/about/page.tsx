@@ -26,7 +26,7 @@ export default function About() {
             : 'translate-y-0 opacity-100'
         }`}
       >
-        <nav className="bg-[#00AFD7]/90 backdrop-blur-md shadow-lg">
+        <nav className="bg-[#00AFD7]/70 backdrop-blur-md shadow-lg">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between h-16">
               {/* Logo/Title */}
@@ -67,12 +67,14 @@ export default function About() {
                 >
                   Events
                 </Link>
-                <Link 
-                  href="/join"
+                <a 
+                  href="https://westernusc.store/product/habitat-for-humanity-western/"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="bg-white text-[#00AFD7] hover:bg-gray-100 px-4 py-2 rounded-md text-sm font-semibold transition-colors ml-2"
                 >
                   Join
-                </Link>
+                </a>
               </div>
             </div>
           </div>
@@ -298,12 +300,14 @@ export default function About() {
             Connect with us to discover how you can get involved and make a difference in our community.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link 
-              href="/join"
+            <a 
+              href="https://westernusc.store/product/habitat-for-humanity-western/"
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-block bg-white text-[#00AFD7] font-semibold px-8 py-4 rounded-lg hover:bg-gray-50 transition-all duration-300 transform hover:scale-105 shadow-xl"
             >
               Join Our Chapter
-            </Link>
+            </a>
             <Link 
               href="/events"
               className="inline-block bg-transparent border-2 border-white text-white font-semibold px-8 py-4 rounded-lg hover:bg-white hover:text-[#00AFD7] transition-all duration-300 shadow-xl"
@@ -318,7 +322,7 @@ export default function About() {
       <footer className="bg-gray-900 text-white py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <p className="text-gray-400 text-sm">
-            © 2024 Western University Habitat for Humanity. All rights reserved.
+            © 2025 Western University Habitat for Humanity. All rights reserved.
           </p>
         </div>
       </footer>

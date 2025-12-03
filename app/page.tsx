@@ -212,7 +212,7 @@ export default function Home() {
             : '-translate-y-full opacity-0'
         }`}
       >
-        <nav className="bg-[#00AFD7]/90 backdrop-blur-md shadow-lg">
+        <nav className="bg-[#00AFD7]/70 backdrop-blur-sm shadow-lg">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between h-16">
               {/* Logo/Title */}
@@ -253,12 +253,14 @@ export default function Home() {
                 >
                   Events
                 </Link>
-                <Link 
-                  href="/join"
+                <a 
+                  href="https://westernusc.store/product/habitat-for-humanity-western/"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="bg-white text-[#00AFD7] hover:bg-gray-100 px-4 py-2 rounded-md text-sm font-semibold transition-colors ml-2"
                 >
                   Join
-                </Link>
+                </a>
               </div>
             </div>
           </div>
@@ -289,12 +291,14 @@ export default function Home() {
           <p className="text-lg sm:text-xl md:text-2xl text-white/90 mb-8 max-w-3xl mx-auto">
             Join Western University's chapter of Habitat for Humanity in creating affordable housing and strengthening our community, one home at a time.
           </p>
-          <Link 
-            href="/join"
+          <a 
+            href="https://westernusc.store/product/habitat-for-humanity-western/"
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-block bg-white text-[#00AFD7] font-semibold px-8 py-4 rounded-lg hover:bg-gray-50 transition-all duration-300 transform hover:scale-105 shadow-xl text-lg"
           >
             Join Us Today
-          </Link>
+          </a>
         </div>
 
         {/* Scroll indicator */}
@@ -408,12 +412,14 @@ export default function Home() {
             Whether you can volunteer for a few hours or want to become a core member, there's a place for you in our community. Join us today!
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <Link 
-              href="/join"
+            <a 
+              href="https://westernusc.store/product/habitat-for-humanity-western/"
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-block bg-white text-[#00AFD7] font-semibold px-8 py-4 rounded-lg hover:bg-gray-50 transition-all duration-300 transform hover:scale-105 shadow-xl"
             >
               Become a Member
-            </Link>
+            </a>
             <Link 
               href="/about"
               className="inline-block bg-transparent border-2 border-white text-white font-semibold px-8 py-4 rounded-lg hover:bg-white hover:text-[#00AFD7] transition-all duration-300 shadow-xl"
